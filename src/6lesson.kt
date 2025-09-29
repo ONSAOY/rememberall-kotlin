@@ -40,7 +40,7 @@ open class Character(
 
         val damage =  calculateDamage(_attack + 3)
         val heal = (_health + 3)
-        val level = level + 1.coerceAtLeast(1)
+        val level = level + 1
     }
 
     open fun takeDamage(damage: Int){
