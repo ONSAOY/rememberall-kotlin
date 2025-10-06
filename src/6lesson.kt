@@ -190,4 +190,5 @@ fun main(){
     warrior.levelUp()
     mage.levelUp()
     archer.levelUp()
+    
 }
