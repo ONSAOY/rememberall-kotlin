@@ -5,7 +5,7 @@ import kotlin.random.Random
 open class Character(val name: String, var health: Int, val attack: Int){
     val isAlive: Boolean get() = health > 0
 
-    fun takeDamage(damage: Int){
+    open fun takeDamage(damage: Int){
         health -= damage
         println("$name получает $damage")
         if (health <= 0) println("$name пал в бою!")
@@ -21,6 +21,7 @@ open class Character(val name: String, var health: Int, val attack: Int){
 
 class Player(name: String, health: Int, attack: Int): Character(name, health, attack){
     var potions = 3 //кол-во зелий здоровья
+    var shield = false
 
     fun usePotions(){
         if (potions > 0){
@@ -33,6 +34,18 @@ class Player(name: String, health: Int, attack: Int): Character(name, health, at
         }
     }
 
+    fun useShield(){
+        shield = true
+        println("$name поднимает щит")
+    }
+
+    override fun takeDamage(damage: Int) {
+        if (shield == true){
+            val reducedDamage = (damage / 2).coerceAtLeast(0)
+            super.takeDamage(reducedDamage)
+        }
+
+    }
     fun printStatus(){
         println("=== $name ===")
         println("Hp: $health")
@@ -97,13 +110,15 @@ fun main(){
         println("=== ГЛАВНОЕ МЕНЮ ===")
         println("1.Статус")
         println("2.Использовать зелье")
-        println("3.Выйти из игры")
+        println("3.Использовать щит")
+        println("4.Выйти из игры")
 
-        val choice = gameInput.getNumberInput("Введите действие 1,2 или 3")
+        val choice = gameInput.getNumberInput("Введите действие 1,2,3 или 4")
         when(choice){
             1 -> customPlayer.printStatus()
             2 -> customPlayer.usePotions()
-            3 -> {
+            3 -> customPlayer.useShield()
+            4 -> {
                 gameRunning = false
                 println("Выход из игры...")
             }
